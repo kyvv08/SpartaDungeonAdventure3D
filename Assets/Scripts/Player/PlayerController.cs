@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        Vector2 v = Vector2.zero;
         playerInputAsset["Move"].performed += OnMoveInput;
         playerInputAsset["Move"].canceled += OnMoveInput;
 
