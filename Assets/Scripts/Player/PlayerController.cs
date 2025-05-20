@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Jump"].started += OnJumpInput;
 
         playerInputAsset["Look"].started += OnLookInput;
-        playerInputAsset["Look"].canceled += lamda =>{mouseDelta = Vector2.zero;};
+        playerInputAsset["Look"].canceled += OnLookInput;
 }
 
     private void OnDisable()
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Jump"].started-= OnJumpInput;
         
         playerInputAsset["Look"].started -= OnLookInput;
-        playerInputAsset["Look"].canceled -= lamda =>{mouseDelta = Vector2.zero;};
+        playerInputAsset["Look"].canceled -= OnLookInput;
     }
 
     
