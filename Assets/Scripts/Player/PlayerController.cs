@@ -25,13 +25,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool canLook = true;
 
-    private Rigidbody rigidbody;
+    private Rigidbody rigidBody;
 
     private InputActionAsset playerInputAsset;
     
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();
         cameraContainer = transform.Find(cameraContainerName).transform;
         playerInputAsset = GetComponent<PlayerInput>().actions;
     }
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         if(context.phase == InputActionPhase.Started && IsGrounded())
         {
-            GetComponent<Rigidbody>().AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            rigidBody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
         }
     }
     
@@ -99,9 +99,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
         dir *= moveSpeed;
-        dir.y = GetComponent<Rigidbody>().velocity.y;
+        dir.y = rigidBody.velocity.y;
 
-        GetComponent<Rigidbody>().velocity = dir;
+        rigidBody.velocity = dir;
     }
     void CameraLook()
     {
