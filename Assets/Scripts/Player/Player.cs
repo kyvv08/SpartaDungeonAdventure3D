@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private PlayerController playerController;
+    public PlayerController playerController { get; private set; }
+    public PlayerCondition playerCondition { get; private set; } 
     private void Awake()
     {
         CharacterManager.Instance.SetPlayer(this);
         playerController = GetComponent<PlayerController>();
+        playerCondition = GetComponent<PlayerCondition>();
     }
     
     public void AddJumpForce(float jumpForce)
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour
                 }
                 case ConsumableType.Health:
                 {
-                    playerController.AddHealth(item.consumables[i].value);
+                    GetComponent<PlayerCondition>().Heal(item.consumables[i].value);
                     break;
                 }
             }
