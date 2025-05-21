@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float minMoveSpeed;
+    [SerializeField] private float maxMoveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayerMask;
     private Vector2 curMovementInput;
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidBody;
 
     private InputActionAsset playerInputAsset;
+    
+    Coroutine coroutine = null;
     
     private void Awake()
     {
@@ -62,7 +66,6 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Look"].started -= OnLookInput;
         playerInputAsset["Look"].canceled -= OnLookInput;
     }
-
     
     void FixedUpdate()
     {
@@ -136,5 +139,27 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
+    }
+
+    public void AddSpeed(float value, float time)
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+        coroutine = StartCoroutine(ChangeSpeed(value, time));
+    }
+
+    IEnumerator ChangeSpeed(float value, float time)
+    {
+        moveSpeed += value;
+        yield return new WaitForSeconds(time);
+        moveSpeed -= value;
+    }
+
+    public void AddHealth(float value)
+    {
+        
     }
 }
