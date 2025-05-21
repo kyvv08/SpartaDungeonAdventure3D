@@ -54,7 +54,9 @@ public class PlayerController : MonoBehaviour
 
         playerInputAsset["Look"].started += OnLookInput;
         playerInputAsset["Look"].canceled += OnLookInput;
-}
+
+        playerInputAsset["Interact"].started += OnInteractInput;
+    }
 
     private void OnDisable()
     {
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour
         
         playerInputAsset["Look"].started -= OnLookInput;
         playerInputAsset["Look"].canceled -= OnLookInput;
+
+        playerInputAsset["Interact"].started -= OnInteractInput;
     }
     
     void FixedUpdate()
@@ -158,8 +162,8 @@ public class PlayerController : MonoBehaviour
         moveSpeed -= value;
     }
 
-    public void AddHealth(float value)
+    public void OnInteractInput(InputAction.CallbackContext context)
     {
-        
+        GetComponent<Interaction>().Interact();
     }
 }

@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
 
+    public Condition health { get; private set; }
+    public Condition stamina { get; private set; }
     public static UIManager Instance
     {
         get
@@ -35,15 +37,10 @@ public class UIManager : MonoBehaviour
         promptText = transform.Find("PromptText").GetComponent<TextMeshProUGUI>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Transform condition = transform.Find("Conditions");
+        health = condition.Find("Health").GetComponent<Condition>();
+        stamina = condition.Find("Stamina").GetComponent <Condition>();
     }
 }
