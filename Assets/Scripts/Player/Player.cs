@@ -9,4 +9,10 @@ public class Player : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
     }
+    
+    public void AddJumpForce(float jumpForce)
+    {
+        Debug.Log(jumpForce);
+        GetComponent<Rigidbody>().AddForce(Vector2.up*jumpForce,ForceMode.Impulse);
+    }
 }
