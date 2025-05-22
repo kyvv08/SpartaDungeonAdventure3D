@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum PlatformType
 {
-    MovingX, MovingZ, Circular
+    MovingX, MovingZ, Circular, MovingY
 }
 
 [CreateAssetMenu(fileName ="MovingPlatform", menuName = "New Moving Platform")]
@@ -21,7 +21,6 @@ public class MovingPlatformData : ScriptableObject
     public float moveRange;
     
     [Header("Move Circular")]
-    public Vector3 centerPoint;
     public float radius;
     public float angularSpeed;
 }

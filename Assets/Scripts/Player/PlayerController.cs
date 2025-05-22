@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
     
     Coroutine coroutine = null;
     
-    private Vector3 platformVelocity;
     private bool isOnMovingFlatform = false;
     private MovingPlatform curPlatform = null;
     
@@ -47,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        platformVelocity = Vector3.zero;
     }
 
     private void OnEnable()
@@ -116,10 +114,14 @@ public class PlayerController : MonoBehaviour
 
         if (isOnMovingFlatform && curPlatform != null)
         {
-            platformVelocity = curPlatform.velocity;
+            dir += curPlatform.velocity;
+            if(curPlatform.IsMovingY())
+            {
+                dir.y = curPlatform.velocity.y;
+            }
         }
         
-        rigidBody.velocity = dir + platformVelocity;
+        rigidBody.velocity = dir;
     }
     void CameraLook()
     {
@@ -194,7 +196,6 @@ public class PlayerController : MonoBehaviour
         {
             isOnMovingFlatform = false;
             curPlatform = null;
-            platformVelocity = Vector3.zero;
         }
     }
 }

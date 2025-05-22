@@ -15,15 +15,16 @@ public class MovingPlatform : MonoBehaviour
     
     private Vector3 lastPosition;
     private float timeReset = 10000f;
-    private float angle;
+    private float angle = 0f;
+
+    private Vector3 centerPoint;
     
     private void Start()
     {
         lastPosition = transform.position;
         if (data.type == PlatformType.Circular)
-        {
-            data.centerPoint = transform.position + (Vector3.left * data.radius);
-            Debug.Log(data.centerPoint);
+        { 
+            centerPoint = transform.position + (Vector3.left * data.radius);
         }
     }
 
@@ -36,8 +37,7 @@ public class MovingPlatform : MonoBehaviour
 
     void Move()
     {
-        float time = Time.time % timeReset;
-        float move = Mathf.PingPong(time*data.moveSpeed, data.moveRange) - data.moveRange/ 2;
+        float move = Mathf.PingPong(Time.time*data.moveSpeed, data.moveRange) - data.moveRange/ 2;
         switch (data.type)
         {
             case PlatformType.MovingX:
@@ -46,13 +46,28 @@ public class MovingPlatform : MonoBehaviour
             case PlatformType.MovingZ:
                 transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + move);
                 break;
+            case PlatformType.MovingY:
+                transform.position = new Vector3(transform.position.x, transform.position.y + move, transform.position.z);
+                break;
             case PlatformType.Circular:
-                angle += data.angularSpeed * (Time.time % timeReset);
+                angle = data.angularSpeed * Time.time;
+                
                 float x = MathF.Cos(angle) * data.radius;
                 float z = MathF.Sin(angle) * data.radius;
                 
-                transform.position = new Vector3(x,transform.position.y,z);
+                transform.position = centerPoint + new Vector3(x,0,z);
                 break;
         }
+    }
+
+    public bool IsMovingY()
+    {
+        if (data.type == PlatformType.MovingY)
+        {
+            return true;
+        }
+
+        return false;
+        
     }
 }

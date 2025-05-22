@@ -7,10 +7,10 @@
     <list default="true" id="275fbcb8-b9e9-4380-846a-3bbd0f07776e" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SpartaDungeonAdventure3D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SpartaDungeonAdventure3D/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Object/Data/MovingCircular.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Object/Data/MovingCircular.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Object/Data/MovingPlatformData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Object/Data/MovingPlatformData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Object/MovingPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Object/MovingPlatform.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +115,7 @@
       <workItem from="1747794297324" duration="1649000" />
       <workItem from="1747830464695" duration="504000" />
       <workItem from="1747875271934" duration="542000" />
-      <workItem from="1747876195648" duration="8395000" />
+      <workItem from="1747876195648" duration="12041000" />
     </task>
     <servers />
   </component>
