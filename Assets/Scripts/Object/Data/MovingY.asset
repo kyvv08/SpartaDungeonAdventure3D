@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MovingY
   m_EditorClassIdentifier: 
   type: 3
-  moveSpeed: 5
+  moveSpeed: 1
   rotationSpeed: 0
-  moveRange: 0.5
+  moveRange: 1
   radius: 0
   angularSpeed: 0

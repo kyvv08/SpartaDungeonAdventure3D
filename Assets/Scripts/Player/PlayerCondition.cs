@@ -10,7 +10,7 @@ public class PlayerCondition : MonoBehaviour
 
     private void Update()
     {
-        health.Add(Time.deltaTime * 2f);
+        health.Add(health.passiveValue * Time.deltaTime);
         stamina.Add(stamina.passiveValue * Time.deltaTime);
 
         if (health.curValue < 0f)
@@ -24,8 +24,17 @@ public class PlayerCondition : MonoBehaviour
         health.Add(amount);
     }
 
+    public void Damaged(float amount)
+    {
+        health.Subtract(amount);
+    }
+    
+    public void UseStamina(float amount)
+    {
+        stamina.Subtract(amount);
+    }
     public void Die()
     {
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ Á×¾ú´Ù.");
+        Debug.Log("í”Œë ˆì´ì–´ ì‚¬ë§");
     }
 }

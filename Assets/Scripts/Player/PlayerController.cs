@@ -31,10 +31,18 @@ public class PlayerController : MonoBehaviour
 
     private InputActionAsset playerInputAsset;
     
-    Coroutine coroutine = null;
+    Coroutine speedCoroutine = null;
+    Coroutine jumpCoroutine = null;
     
     private bool isOnMovingFlatform = false;
     private MovingPlatform curPlatform = null;
+    
+    //----extrajump
+    private int maxJumpCount = 1;
+    private int curJumpCount = 0;
+    
+    //-----stamina
+    [SerializeField] private float useStamina = 5f;
     
     private void Awake()
     {
@@ -54,7 +62,7 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Move"].canceled += OnMoveInput;
 
         playerInputAsset["Jump"].started += OnJumpInput;
-        playerInputAsset["Jump"].performed += OnJumpInput;
+        //playerInputAsset["Jump"].performed += OnJumpInput;
 
         playerInputAsset["Look"].started += OnLookInput;
         playerInputAsset["Look"].canceled += OnLookInput;
@@ -68,7 +76,7 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Move"].canceled -= OnMoveInput;
         
         playerInputAsset["Jump"].started-= OnJumpInput;
-        playerInputAsset["Jump"].performed -= OnJumpInput;
+        //playerInputAsset["Jump"].performed -= OnJumpInput;
         
         playerInputAsset["Look"].started -= OnLookInput;
         playerInputAsset["Look"].canceled -= OnLookInput;
@@ -100,9 +108,15 @@ public class PlayerController : MonoBehaviour
     }
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started && IsGrounded())
+        if (IsGrounded())
         {
+            curJumpCount = 0;
+        }
+        if(context.phase == InputActionPhase.Started && curJumpCount < maxJumpCount)
+        {
+            ++curJumpCount;
             rigidBody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            CharacterManager.Instance.Player.playerCondition.UseStamina(useStamina);
         }
     }
     
@@ -120,7 +134,7 @@ public class PlayerController : MonoBehaviour
                 dir.y = curPlatform.velocity.y;
             }
         }
-        
+        Debug.Log("dir: "+ dir);
         rigidBody.velocity = dir;
     }
     void CameraLook()
@@ -158,15 +172,15 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
     }
-
+    //----------- 속도 변화
     public void AddSpeed(float value, float time)
     {
-        if (coroutine != null)
+        if (speedCoroutine != null)
         {
-            StopCoroutine(coroutine);
-            coroutine = null;
+            StopCoroutine(speedCoroutine);
+            speedCoroutine = null;
         }
-        coroutine = StartCoroutine(ChangeSpeed(value, time));
+        speedCoroutine = StartCoroutine(ChangeSpeed(value, time));
     }
 
     IEnumerator ChangeSpeed(float value, float time)
@@ -180,7 +194,7 @@ public class PlayerController : MonoBehaviour
     {
         GetComponent<Interaction>().Interact();
     }
-    
+    //------------발판 밟음 여부
     public void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.CompareTag("MovingPlatform"))
@@ -197,5 +211,22 @@ public class PlayerController : MonoBehaviour
             isOnMovingFlatform = false;
             curPlatform = null;
         }
+    }
+    //-------------추가 점프
+    public void EnableExtraJump(int value, float time)
+    {
+        if (jumpCoroutine != null)
+        {
+            StopCoroutine(jumpCoroutine);
+        }
+
+        jumpCoroutine = StartCoroutine(ChangeMaxJumpCount(value, time));
+    }
+
+    IEnumerator ChangeMaxJumpCount(int value, float time)
+    {
+        maxJumpCount += value;
+        yield return new WaitForSeconds(time);
+        maxJumpCount -= value;
     }
 }

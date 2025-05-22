@@ -16,5 +16,5 @@ MonoBehaviour:
   moveSpeed: 1
   rotationSpeed: 0
   moveRange: 0
-  radius: 2
+  radius: 10
   angularSpeed: 3

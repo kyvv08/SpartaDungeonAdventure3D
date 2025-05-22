@@ -12,6 +12,14 @@ public class MovingPlatform : MonoBehaviour
     {
         get;private set;
     }
+
+    public float MoveSpeed
+    {
+        get
+        {
+            return data.moveSpeed;
+        }
+    }
     
     private Vector3 lastPosition;
     private float timeReset = 10000f;

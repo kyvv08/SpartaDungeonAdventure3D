@@ -16,8 +16,7 @@ public class Player : MonoBehaviour
     
     public void AddJumpForce(float jumpForce)
     {
-        Debug.Log(jumpForce);
-        GetComponent<Rigidbody>().AddForce(Vector2.up*jumpForce,ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
     }
 
     public void InteractItem(ItemData item)
@@ -28,12 +27,17 @@ public class Player : MonoBehaviour
             {
                 case ConsumableType.Speed:
                 {
-                    playerController.AddSpeed(item.consumables[i].value, item.consumables[i].time);
+                    playerController.AddSpeed(item.consumables[i].fValue, item.consumables[i].time);
                     break;
                 }
                 case ConsumableType.Health:
                 {
-                    GetComponent<PlayerCondition>().Heal(item.consumables[i].value);
+                    GetComponent<PlayerCondition>().Heal(item.consumables[i].fValue);
+                    break;
+                }
+                case ConsumableType.ExtraJump:
+                {
+                    playerController.EnableExtraJump(item.consumables[i].iValue, item.consumables[i].time);
                     break;
                 }
             }
