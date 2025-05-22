@@ -5,15 +5,19 @@ using UnityEngine;
 public enum ConsumableType
 {
     Health,
-    Speed
+    Speed,
+    ExtraJump
 }
 
 [System.Serializable]
 public class ItemDataConsumable
 {
     public ConsumableType type;
-    public float value;
+    public float fValue;
     public float time;
+
+    public int iValue;
+    
 }
 
 [CreateAssetMenu(fileName ="Item", menuName = "New Item")]
