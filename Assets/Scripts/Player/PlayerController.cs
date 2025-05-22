@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     
     Coroutine coroutine = null;
     
+    private Vector3 platformVelocity;
+    private bool isOnMovingFlatform = false;
+    private MovingPlatform curPlatform = null;
+    
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        platformVelocity = Vector3.zero;
     }
 
     private void OnEnable()
@@ -51,6 +56,7 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Move"].canceled += OnMoveInput;
 
         playerInputAsset["Jump"].started += OnJumpInput;
+        playerInputAsset["Jump"].performed += OnJumpInput;
 
         playerInputAsset["Look"].started += OnLookInput;
         playerInputAsset["Look"].canceled += OnLookInput;
@@ -64,6 +70,7 @@ public class PlayerController : MonoBehaviour
         playerInputAsset["Move"].canceled -= OnMoveInput;
         
         playerInputAsset["Jump"].started-= OnJumpInput;
+        playerInputAsset["Jump"].performed -= OnJumpInput;
         
         playerInputAsset["Look"].started -= OnLookInput;
         playerInputAsset["Look"].canceled -= OnLookInput;
@@ -107,7 +114,12 @@ public class PlayerController : MonoBehaviour
         dir *= moveSpeed;
         dir.y = rigidBody.velocity.y;
 
-        rigidBody.velocity = dir;
+        if (isOnMovingFlatform && curPlatform != null)
+        {
+            platformVelocity = curPlatform.velocity;
+        }
+        
+        rigidBody.velocity = dir + platformVelocity;
     }
     void CameraLook()
     {
@@ -165,5 +177,24 @@ public class PlayerController : MonoBehaviour
     public void OnInteractInput(InputAction.CallbackContext context)
     {
         GetComponent<Interaction>().Interact();
+    }
+    
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("MovingPlatform"))
+        {
+            isOnMovingFlatform = true;
+            curPlatform = collision.collider.GetComponent<MovingPlatform>();
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        if(collision.collider.CompareTag("MovingPlatform"))
+        {
+            isOnMovingFlatform = false;
+            curPlatform = null;
+            platformVelocity = Vector3.zero;
+        }
     }
 }
