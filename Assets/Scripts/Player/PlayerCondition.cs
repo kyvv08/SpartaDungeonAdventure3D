@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class PlayerCondition : MonoBehaviour
 {
+    public Action onTakeDamage;
+    
     Condition health { get { return UIManager.Instance.health; } }
     Condition stamina { get { return UIManager.Instance.stamina; } }
 
@@ -26,6 +29,7 @@ public class PlayerCondition : MonoBehaviour
 
     public void Damaged(float amount)
     {
+        onTakeDamage?.Invoke();
         health.Subtract(amount);
     }
     

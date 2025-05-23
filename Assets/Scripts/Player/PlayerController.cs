@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxMoveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask climbLayerMask;
     private Vector2 curMovementInput;
     
     [Header("Look")]
@@ -122,9 +123,19 @@ public class PlayerController : MonoBehaviour
     
     private void Move()
     {
-        Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;
-        dir.y = rigidBody.velocity.y;
+        Vector3 dir;
+        if (IsClimbable())
+        {
+            dir = transform.up * curMovementInput.y;
+            dir *= moveSpeed;
+            dir.x = dir.z = rigidBody.velocity.x;
+        }
+        else
+        {
+            dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
+            dir *= moveSpeed;
+            dir.y = rigidBody.velocity.y;
+        }
 
         if (isOnMovingFlatform && curPlatform != null)
         {
@@ -134,7 +145,6 @@ public class PlayerController : MonoBehaviour
                 dir.y = curPlatform.velocity.y;
             }
         }
-        Debug.Log("dir: "+ dir);
         rigidBody.velocity = dir;
     }
     void CameraLook()
@@ -146,6 +156,24 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
     }
 
+    bool IsClimbable()
+    {
+        Ray[] rays = new Ray[]
+        {
+            new Ray(transform.position + (transform.up * 0.5f) + (-transform.forward * 0.01f), transform.forward),
+            new Ray(transform.position + (transform.up * 0.01f) + (-transform.forward * 0.01f), transform.forward)
+        };
+
+        for(int i = 0; i < rays.Length; i++)
+        {
+            if (Physics.Raycast(rays[i], 0.3f, climbLayerMask))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
     bool IsGrounded()
     {
         Ray[] rays = new Ray[4]
